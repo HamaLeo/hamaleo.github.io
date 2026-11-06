@@ -1,0 +1,23 @@
+{
+  "name": "hamaleo-github-pages",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node build.mjs"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.119.0",
+    "lucide-react": "1.69.0",
+    "react": "19.2.6",
+    "react-dom": "19.2.6"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.15",
+    "esbuild": "0.28.2",
+    "supabase": "2.81.3"
+  },
+  "allowScripts": {
+    "supabase@2.81.3": true
+  }
+}

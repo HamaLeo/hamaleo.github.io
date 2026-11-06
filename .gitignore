@@ -1,0 +1,8 @@
+node_modules/
+.env*
+!.env.example
+supabase/.temp/
+.supabase/
+*.log
+.DS_Store
+.verification/

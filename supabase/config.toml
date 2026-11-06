@@ -1,0 +1,3 @@
+project_id = "hamaleo-portfolio"
+[functions.portfolio-api]
+verify_jwt = false

@@ -1,0 +1,13 @@
+import {build} from 'esbuild';
+import {readFileSync,readdirSync,existsSync,mkdirSync,rmSync} from 'node:fs';
+import assert from 'node:assert/strict';
+import path from 'node:path';
+const temp=path.resolve('.verification');mkdirSync(temp,{recursive:true});
+const entry=`import React from 'react';import{renderToStaticMarkup}from'react-dom/server';import Portfolio from './src/portfolio';export const html=renderToStaticMarkup(React.createElement(Portfolio));`;
+await build({stdin:{contents:entry,resolveDir:process.cwd(),loader:'tsx'},bundle:true,platform:'node',format:'esm',outfile:path.join(temp,'render.mjs'),jsx:'automatic',packages:'external'});
+globalThis.window={};const {html}=await import('file:///'+path.join(temp,'render.mjs').replaceAll('\\','/'));
+assert.ok(html.includes('portrait-photo'));assert.ok(html.includes('Software Manager'));assert.ok(!/href="\/(admin|hameleoadmin)/i.test(html),'No public admin links');assert.ok(!html.includes('button>عربي'),'No Arabic language selector');assert.equal((html.match(/research-card/g)||[]).length,4);assert.ok(existsSync('docs/hameleoadmin/index.html'));assert.ok(readFileSync('docs/hameleoadmin/index.html','utf8').includes('noindex,nofollow'));
+await build({entryPoints:['supabase/functions/portfolio-api/index.ts'],bundle:true,write:false,platform:'neutral',format:'esm',external:['npm:*']});
+const scan=dir=>{for(const entry of readdirSync(dir,{withFileTypes:true})){if(['node_modules','.git','.verification'].includes(entry.name))continue;const file=path.join(dir,entry.name);if(entry.isDirectory()){scan(file);continue}if(!/\.(js|json|ts|tsx|sql|html|toml|md|yml)$/.test(file))continue;const text=readFileSync(file,'utf8');assert.ok(!/(?:sb_secret_[A-Za-z0-9_-]{20,}|ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{30,})/.test(text),'Credential pattern detected: '+file)}};scan('.');
+console.log('PASS: public portfolio, absent admin links, hidden route, bilingual content, research cards, backend syntax, credential scan.');
+rmSync(temp,{recursive:true,force:true});
