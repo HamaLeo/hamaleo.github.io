@@ -13,7 +13,7 @@ Run `npm ci`, then `npm run build`. GitHub Pages publishes the committed `docs/`
 
 ## Secure backend
 
-The dedicated hosted project is `hamaleo-portfolio` (`gvuhooqynveqgcsotcdx`, Frankfurt). The schema, API and owner record are deployed. Gmail SMTP activation must complete before first-time email verification can be used. The SMTP password is resolved from `HAMALEO_GMAIL_SMTP_APP_PASSWORD` only during server configuration; it is never part of the frontend or this repository. Use the pinned Supabase CLI v3 for this configuration.
+The dedicated hosted project is `hamaleo-portfolio` (`gvuhooqynveqgcsotcdx`, Frankfurt). The schema, API and owner record are deployed, and Gmail SMTP is configured. First-time setup at the private studio requires the owner to receive an email code, choose credentials and verify an authenticator. The SMTP password is resolved from `HAMALEO_GMAIL_SMTP_APP_PASSWORD` only during server configuration; it is never part of the frontend or this repository. Use the pinned Supabase CLI v3 for this configuration.
 
 Supabase Auth stores the password; an Edge Function verifies the private username. Username hashes and salts live in an RLS-protected database table. No default username or password exists in this repository.
 
