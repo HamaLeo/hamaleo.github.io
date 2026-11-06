@@ -23,6 +23,10 @@ The browser keeps auth tokens in memory, not local storage. Reloading requires s
 
 If first-time authenticator enrollment is interrupted, sign in again with the chosen credentials to enroll a new QR code. Only incomplete factors are replaced; verified authenticators remain required.
 
+Saving the first password ends the email-verification session. The studio therefore returns to sign-in after saving credentials, then continues authenticator enrollment with a fresh session. A stale setup page that receives HTTP 409 also returns to sign-in, without changing the saved credentials. API failures retain their server error message and status instead of a generic credential error.
+
+Local UI regression checks: `node scripts/test-admin-flow.mjs`. Read-only live error transport check: `node scripts/test-api-errors.mjs`. Neither creates hosted Auth users or changes owner credentials.
+
 ## Deployment requirements
 
 1. Deploy the SQL migration and `portfolio-api` Edge Function to a Supabase project dedicated to this portfolio, or approve using an existing project.
