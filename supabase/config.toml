@@ -1,3 +1,39 @@
 project_id = "hamaleo-portfolio"
+[auth]
+site_url = "https://hamaleo.github.io"
+additional_redirect_urls = ["https://hamaleo.github.io/hameleoadmin/"]
+jwt_expiry = 900
+enable_signup = false
+enable_anonymous_sign_ins = false
+enable_refresh_token_rotation = true
+minimum_password_length = 12
+
+[auth.email]
+enabled = true
+enable_confirmations = true
+double_confirm_changes = true
+secure_password_change = true
+otp_length = 8
+otp_expiry = 600
+
+[auth.email.smtp]
+enabled = true
+host = "smtp.gmail.com"
+port = 465
+user = "hamagarde1998@gmail.com"
+pass = "env(HAMALEO_GMAIL_SMTP_APP_PASSWORD)"
+admin_email = "hamagarde1998@gmail.com"
+sender_name = "Muhammed Hoger Portfolio"
+
+[auth.email.template.magic_link]
+subject = "Your portfolio owner verification code"
+content_path = "./supabase/templates/owner-code.html"
+
+[auth.mfa]
+max_enrolled_factors = 5
+[auth.mfa.totp]
+enroll_enabled = true
+verify_enabled = true
+
 [functions.portfolio-api]
 verify_jwt = false

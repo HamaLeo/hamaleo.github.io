@@ -13,11 +13,15 @@ Run `npm ci`, then `npm run build`. GitHub Pages publishes the committed `docs/`
 
 ## Secure backend
 
+The dedicated hosted project is `hamaleo-portfolio` (`gvuhooqynveqgcsotcdx`, Frankfurt). The schema, API and owner record are deployed. Gmail SMTP activation must complete before first-time email verification can be used. The SMTP password is resolved from `HAMALEO_GMAIL_SMTP_APP_PASSWORD` only during server configuration; it is never part of the frontend or this repository. Use the pinned Supabase CLI v3 for this configuration.
+
 Supabase Auth stores the password; an Edge Function verifies the private username. Username hashes and salts live in an RLS-protected database table. No default username or password exists in this repository.
 
 First-time setup requires an OTP sent to the pre-provisioned owner's email before credentials can be chosen. The owner then enrolls an authenticator. Owner-only row-level policies require a verified AAL2 token for content changes and analytics. An AAL1 session cannot administer the database, even if the client is modified.
 
 The browser keeps auth tokens in memory, not local storage. Reloading requires sign-in again. Visitor IDs are anonymous local browser IDs; no raw IP is stored. Requests are rate-limited using salted IP hashes.
+
+If first-time authenticator enrollment is interrupted, sign in again with the chosen credentials to enroll a new QR code. Only incomplete factors are replaced; verified authenticators remain required.
 
 ## Deployment requirements
 
